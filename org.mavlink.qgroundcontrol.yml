@@ -1,0 +1,53 @@
+app-id: org.mavlink.qgroundcontrol
+branch: stable
+runtime: org.kde.Platform
+runtime-version: '5.12'
+sdk: org.kde.Sdk
+sdk-extensions:
+command: QGroundControl
+rename-desktop-file: qgroundcontrol.desktop
+rename-icon: qgroundcontrol.png
+finish-args:
+  # X11 + XShm access
+  - --share=ipc
+  - --socket=fallback-x11
+  # Wayland access
+  - --socket=wayland
+  # OpenGL rendering
+  - --device=dri
+  # Networking
+  - --share=network
+  # Pulseaudio
+  - --socket=pulseaudio
+  # Needs to save files locally
+  - --filesystem=home
+modules:
+  - name: shapelib
+    buildsystem: cmake
+    config-opts:
+      - -DCMAKE_BUILD_TYPE:STRING=Release
+      - -DBUILD_SHARED_LIBS:BOOL=OFF
+      - -DAIRMAP_ENABLE_NETWORK_TESTS=OFF
+    sources:
+      - type: git
+        builddir: true
+        url: https://github.com/OSGeo/shapelib.git
+#        tag: v1.5.0
+#        # release 1.4.1 - untagged
+#        commit: 6322dec7e0446e7e48119a39adf0ec46f9111135
+        # close to copy in QGC
+        commit: e436f045987bd33ee923f11526b3b947d33eb446
+    cleanup:
+      - /bin/*
+  - name: qgroundcontrol
+    buildsystem: cmake
+    config-opts:
+      - -DCCACHE:BOOL=FALSE
+      - -DCMAKE_BUILD_TYPE:STRING=Release
+      - -DCOMPILE_QML:BOOL=TRUE
+      - -DDEBUG_QML:BOOL=FALSE
+      - -DLIBS_USE_QGC_SHAPELIB:BOOL=FALSE
+    sources:
+      - type: git
+        url: "https://github.com/thopiekar/qgroundcontrol.git"
+        branch: "master"
