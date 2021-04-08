@@ -27,7 +27,6 @@ modules:
       - -DCMAKE_BUILD_TYPE:STRING=Release
       - -DCOMPILE_QML:BOOL=TRUE
       - -DDEBUG_QML:BOOL=FALSE
-      - -DLIBS_USE_QGC_SHAPELIB:BOOL=FALSE
     sources:
       - type: git
         url: "https://github.com/thopiekar/qgroundcontrol.git"
