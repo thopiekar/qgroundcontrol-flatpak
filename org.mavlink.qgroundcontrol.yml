@@ -5,8 +5,6 @@ runtime-version: '5.12'
 sdk: org.kde.Sdk
 sdk-extensions:
 command: QGroundControl
-rename-desktop-file: qgroundcontrol.desktop
-rename-icon: qgroundcontrol.png
 finish-args:
   # X11 + XShm access
   - --share=ipc
